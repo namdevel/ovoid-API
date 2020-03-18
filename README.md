@@ -1,5 +1,5 @@
 # OVO Api PHP Class [Unofficial]
-WorkTested on OVO version 3.6.0 (IOS) iPhone XS MAX.
+WorkTested on OVO version 3.6.0 iPhone (IOS 13).
 - [x] login2FA
 - [x] login2FAVerify
 - [x] loginSecurityCode
