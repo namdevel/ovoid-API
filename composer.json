@@ -5,9 +5,14 @@
     "license": "MIT",
     "authors": [
         {
-            "name": "namdevel",
-            "email": "namdevel@gmail.com"
+            "name": "ANAMPEDIA",
+            "email": "orlicgator@gmail.com"
         }
     ],
-    "require": {}
+	"autoload": {
+        "files":[
+          "src/Ovo.php"
+        ]
+    }
+
 }
