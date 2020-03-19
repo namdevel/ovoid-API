@@ -6,6 +6,10 @@
 
 Compliant with the March 19, 2020 OVO API update.
 
+Reference
+------------
+- [@lintangtimur/ovoid](https://github.com/lintangtimur/ovoid) by [lintangtimur](https://github.com/lintangtimur)
+
 Features
 ------------
 - [x] login2FA
