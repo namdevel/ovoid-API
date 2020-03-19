@@ -22,7 +22,7 @@ Features
 - [x] getOvoPoint
 - [x] getBankList
 - [x] transactionHistory
-- [x] generateSignature (for transfer lebih dari 2x)
+- [x] generateSignature `private` (for transfer more than 2 times)
 - [x] transferOvo
 - [x] transferBank
 
