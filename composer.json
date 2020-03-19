@@ -1,6 +1,18 @@
 {
     "name": "namdevel/ovoid-api",
     "description": "OVO Api PHP Class [Unofficial]",
+    "type": "library",
     "license": "MIT",
-    "require": {}
+    "authors": [
+        {
+            "name": "namdevel",
+            "email": "yzmikazuki@gmail.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "files":[
+          "Ovo.php"
+        ]
+    }
 }
