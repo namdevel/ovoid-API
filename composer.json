@@ -6,13 +6,8 @@
     "authors": [
         {
             "name": "namdevel",
-            "email": "yzmikazuki@gmail.com"
+            "email": "namdevel@gmail.com"
         }
     ],
-    "require": {},
-    "autoload": {
-        "files":[
-          "Ovo.php"
-        ]
-    }
+    "require": {}
 }
