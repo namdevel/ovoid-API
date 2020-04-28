@@ -12,7 +12,7 @@ class Constants
 {
     const API = 'https://api.ovo.id';
     const AWS_API = 'https://apigw01.aws.ovo.id';
-    const deviceId = '285B1851-50FA-A1B9-2449-8D75618C6414';
+    const deviceId = '7FF90DEE-8F9F-4DC9-941C-A55E7FEBF17E';
     const osName = 'iOS';
     const osVersion = '13.3.1';
     const appId = 'P72RVSPSF61F72ELYLZI';
