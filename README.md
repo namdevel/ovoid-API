@@ -1,5 +1,5 @@
 # OVO Api PHP Class [Unofficial]
-[![API](https://img.shields.io/badge/OVO%20API-March%2019%2C%202020-36ade1.svg)](https://www.ovo.id/features)
+[![API](https://img.shields.io/badge/OVO%20API-April%2030%2C%202020-36ade1.svg)](https://www.ovo.id/features)
 ![PHP](https://img.shields.io/badge/php-%3E%3D7.x-8892bf.svg)
 ![CURL](https://img.shields.io/badge/cURL-required-green.svg)
 [![GitHub issues](https://img.shields.io/github/issues/namdevel/ovoid-API)](https://github.com/namdevel/ovoid-API/issues)
@@ -8,7 +8,7 @@
 [![GitHub license](https://img.shields.io/github/license/namdevel/ovoid-API)](https://github.com/namdevel/ovoid-API/blob/master/LICENSE)
 [![Twitter](https://img.shields.io/twitter/url?url=https%3A%2F%2Fgithub.com%2Fnamdevel%2Fovoid-API)](https://twitter.com/intent/tweet?text=Wow:&url=https%3A%2F%2Fgithub.com%2Fnamdevel%2Fovoid-API)
 
-Compliant with the March 19, 2020 OVO API update.
+Compliant with the April 30, 2020 OVO API update.
 
 Reference
 ------------
