@@ -2,11 +2,11 @@
 namespace NAMDEVEL;
 
 /**
-* OVO Api PHP Class [Unofficial]
-* Author : namdevel <https://github.com/namdevel>
-* Created at 04-03-2020 14:26
-* Last Modified at 04-03-2020 22:26
-*/
+ * OVO Api PHP Class [Unofficial]
+ * Author : namdevel <https://github.com/namdevel>
+ * Created at 04-03-2020 14:26
+ * Last Modified at 04-03-2020 22:26
+ */
 
 class Constants
 {
@@ -60,7 +60,7 @@ class OvoId
     public function loginSecurityCode($securityCode, $updateAccessToken)
     {
         $payload = array(
-            'deviceUnixtime' => time(),
+            'deviceUnixtime' => time() ,
             'securityCode' => $securityCode,
             'updateAccessToken' => $updateAccessToken
         );
@@ -85,17 +85,17 @@ class OvoId
 
     public function getAccountNo()
     {
-        return self::walletInquiry()['data']['001']['card_no'];
+        return self::walletInquiry() ['data']['001']['card_no'];
     }
 
     public function getAccountBalance()
     {
-        return self::walletInquiry()['data']['001']['card_balance'];
+        return self::walletInquiry() ['data']['001']['card_balance'];
     }
 
     public function getOvoPoint()
     {
-        return self::walletInquiry()['data']['600']['card_balance'];
+        return self::walletInquiry() ['data']['600']['card_balance'];
     }
 
     public function getBankList()
@@ -105,17 +105,16 @@ class OvoId
 
     public function transactionHistory($page = 1, $limit = 10)
     {
-        return self::parseResponse(
-            self::Request(Constants::API . '/wallet/v2/transaction?page=' . $page . '&limit=' . $limit, false, self::generateHeaders())
-        );
+        return self::parseResponse(self::Request(Constants::API . '/wallet/v2/transaction?page=' . $page . '&limit=' . $limit, false, self::generateHeaders()));
     }
 
     public function transferOvo($amount, $to, $securityCode, $message = "")
     {
         $prepare = json_decode(self::verifyOVOMember($to));
 
-        if ($prepare->fullName) {
-            $trxId   = self::parseResponse(self::generateTrxId($amount))['trxId'];
+        if ($prepare->fullName)
+        {
+            $trxId = self::parseResponse(self::generateTrxId($amount)) ['trxId'];
             $payload = array(
                 'amount' => $amount,
                 'trxId' => $trxId,
@@ -124,23 +123,30 @@ class OvoId
             );
 
             $transfer = self::Request(Constants::API . '/v1.0/api/customers/transfer', $payload, self::generateHeaders());
-            if (preg_match('/sorry unable to handle your request/', $transfer)) {
+            if (preg_match('/sorry unable to handle your request/', $transfer))
+            {
                 $unlockTrxId = self::unlockAndValidateTrxId($amount, $trxId, $securityCode);
 
-                if ($unlockTrxId->isAuthorized == 'true') {
+                if ($unlockTrxId->isAuthorized == 'true')
+                {
                     return self::Request(Constants::API . '/v1.0/api/customers/transfer', $payload, self::generateHeaders());
-                    exit();
-                } else {
-                    return $unlockTrxId;
-                    exit();
+
                 }
-            } else {
-                return $transfer;
-                exit();
+                else
+                {
+                    return $unlockTrxId;
+
+                }
             }
-        } else {
+            else
+            {
+                return $transfer;
+
+            }
+        }
+        else
+        {
             return $prepare->message;
-            exit();
         }
     }
 
@@ -162,7 +168,7 @@ class OvoId
             'bankName' => $bankName,
             'notes' => $notes,
             'transactionId' => $trxId,
-            'accountNo' => self::getAccountNo(),
+            'accountNo' => self::getAccountNo() ,
             'accountName' => $bankAccountName,
             'accountNoDestination' => $bankAccountNumber,
             'bankCode' => $bankCode,
@@ -176,43 +182,35 @@ class OvoId
     {
         $prepare = json_decode(self::transferBankPrepare($bankCode, $bankNumber, $amount));
 
-        if ($prepare->accountName) {
-            $trxId = self::parseResponse(self::generateTrxId($amount))['trxId'];
-            $transfer = self::transferBankExecute(
-                $prepare->baseAmount,
-                $prepare->bankName,
-                $prepare->bankCode,
-                $prepare->accountNo,
-                $prepare->accountName,
-                $trxId,
-                $message
-            );
+        if ($prepare->accountName)
+        {
+            $trxId = self::parseResponse(self::generateTrxId($amount)) ['trxId'];
+            $transfer = self::transferBankExecute($prepare->baseAmount, $prepare->bankName, $prepare->bankCode, $prepare->accountNo, $prepare->accountName, $trxId, $message);
 
-            if (preg_match('/sorry unable to handle your request/', $transfer)) {
+            if (preg_match('/sorry unable to handle your request/', $transfer))
+            {
                 $unlockTrxId = self::unlockAndValidateTrxId($amount, $trxId, $securityCode);
 
-                if ($unlockTrxId->isAuthorized == 'true') {
-                    return self::transferBankExecute(
-                        $prepare->baseAmount,
-                        $prepare->bankName,
-                        $prepare->bankCode,
-                        $prepare->accountNo,
-                        $prepare->accountName,
-                        $trxId,
-                        $message
-                    );
-                    exit();
-                } else {
-                    return $unlockTrxId;
-                    exit();
+                if ($unlockTrxId->isAuthorized == 'true')
+                {
+                    return self::transferBankExecute($prepare->baseAmount, $prepare->bankName, $prepare->bankCode, $prepare->accountNo, $prepare->accountName, $trxId, $message);
+
                 }
-            } else {
-                return $transfer;
-                exit();
+                else
+                {
+                    return $unlockTrxId;
+
+                }
             }
-        } else {
+            else
+            {
+                return $transfer;
+
+            }
+        }
+        else
+        {
             return $prepare->message;
-            exit();
         }
     }
 
@@ -220,24 +218,24 @@ class OvoId
     {
         $ch = curl_init();
 
-        curl_setopt_array(
-            $ch,
-            array(
-                CURLOPT_URL => $url,
-                CURLOPT_RETURNTRANSFER => true
-            )
-        );
+        curl_setopt_array($ch, array(
+            CURLOPT_URL => $url,
+            CURLOPT_RETURNTRANSFER => true
+        ));
 
-        if ($post) {
+        if ($post)
+        {
             curl_setopt($ch, CURLOPT_POST, true);
             curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($post));
         }
 
-        if (!empty($this->authToken)) {
+        if (!empty($this->authToken))
+        {
             array_push($headers, "authorization: " . $this->authToken);
         }
 
-        if ($headers) {
+        if ($headers)
+        {
             curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
         }
 
@@ -264,7 +262,7 @@ class OvoId
         return json_decode($response, true);
     }
 
-    protected function generateSignature(/* <RAHASIA PRIBADI> */)
+    protected function generateSignature( /* <RAHASIA PRIBADI> */)
     {
         /* <RAHASIA PRIBADI> */
     }
@@ -273,7 +271,7 @@ class OvoId
     {
         $payload = array(
             'trxId' => $trxId,
-            'signature' => self::generateSignature(/* <RAHASIA PRIBADI> */),
+            'signature' => self::generateSignature( /* <RAHASIA PRIBADI> */) ,
             'securityCode' => $securityCode
         );
 
@@ -290,3 +288,4 @@ class OvoId
         return self::Request(Constants::API . '/v1.0/api/auth/customer/genTrxId', $payload, self::generateHeaders());
     }
 }
+
