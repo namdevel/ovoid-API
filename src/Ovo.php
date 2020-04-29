@@ -16,8 +16,8 @@ class Constants
     const osName = 'iOS';
     const osVersion = '13.3.1';
     const appId = 'P72RVSPSF61F72ELYLZI';
-    const appVersion = '3.6.0';
-    const userAgent = 'OVO/3.6.0 (ovo.id; build:8139; iOS 13.3.1) Alamofire/4.7.3';
+    const appVersion = '3.9.1';
+    const userAgent = 'OVO/3.9.1 (ovo.id; build:8139; iOS 13.3.1) Alamofire/4.7.3';
     const actionMark = 'OVO Cash';
     const pushNotif = '7c83e48253d1cd45f84ed261a4a44a6c6b3efebc6f4510911fcb72b42dae369c';
 }
