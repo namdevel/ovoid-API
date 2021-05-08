@@ -1,10 +1,9 @@
 <?php 
 /*
 @ Unofficial Ovo API PHP Class
-@ Author : KHOIRUL ANAM <fohandsome@icloud.com>
+@ Author : namdevel
 @ Created at 04-03-2020 14:26
 @ Last Modified at 04-03-2020 22:26
-@ Lampung, Indonesia
 */
 
 class Constants
