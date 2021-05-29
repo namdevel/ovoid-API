@@ -6,7 +6,7 @@
 [![GitHub forks](https://img.shields.io/github/forks/namdevel/ovoid-API)](https://github.com/namdevel/ovoid-API/network)
 [![GitHub stars](https://img.shields.io/github/stars/namdevel/ovoid-API)](https://github.com/namdevel/ovoid-API/stargazers)
 [![GitHub license](https://img.shields.io/github/license/namdevel/ovoid-API)](https://github.com/namdevel/ovoid-API/blob/master/LICENSE)
-[![HitCount](http://hits.dwyl.com/namdevel/ovoid-api.svg)](http://hits.dwyl.com/namdevel/ovoid-api)
+[![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fnamdevel%2Fovoid-API&count_bg=%23F30000&title_bg=%23555555&icon=dev-dot-to.svg&icon_color=%23E7E7E7&title=VIEWS&edge_flat=false)](https://hits.seeyoufarm.com)
 
 Compliant with the April 30, 2020 OVO API update.
 
