@@ -10,6 +10,8 @@
 
 Compliant with the April 30, 2020 OVO API update.
 
+:coffee: Buy Me a Coffee : https://trakteer.id/namdevel
+
 Reference
 ------------
 - [@lintangtimur/ovoid](https://github.com/lintangtimur/ovoid) by [lintangtimur](https://github.com/lintangtimur)
