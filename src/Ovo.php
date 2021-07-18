@@ -1,236 +1,351 @@
-<?php 
+<?php
+namespace Namdevel;
 /*
 @ Unofficial Ovo API PHP Class
 @ Author : namdevel
 @ Created at 04-03-2020 14:26
-@ Last Modified at 04-03-2020 22:26
+@ Last Modified at 18-07-2021 11:44
 */
 
-class Constants
+class Ovo
 {
-    const API = 'https://api.ovo.id';
-	const AWS_API = 'https://apigw01.aws.ovo.id';
-    const osName = 'iOS';
-    const osVersion = '13.3.1';
-    const appId = 'P72RVSPSF61F72ELYLZI';
-    const appVersion = '3.9.1';
-    const userAgent = 'OVO/3.9.1 (ovo.id; build:8139; iOS 13.3.1) Alamofire/4.7.3';
-    const actionMark = 'OVO Cash';
-    const pushNotif = '7c83e48253d1cd45f84ed261a4a44a6c6b3efebc6f4510911fcb72b42dae369c';
-}
-
-class OvoId
-{
-    private $authToken;
-    private $deviceId;
-	
-    public function __construct($token = null, $deviceId = null)
+    /*
+    @ Device ID (UUIDV4)
+    @ Generated from self::generateUUIDV4();
+    */
+    const device_id = '94508BA5-B41F-425C-BB08-D03A03AC63E2';
+    const api_url = 'https://api.ovo.id';
+    const heusc_api = 'https://agw.heusc.id';
+    const os_name = 'iOS';
+    const os_version = '14.4.2';
+    const app_id = 'P72RVSPSF61F72ELYLZI';
+    const app_version = '3.37.0';
+    const user_agent = 'OVO/16820 CFNetwork/1220.1 Darwin/20.3.0';
+    const action_mark = 'OVO Cash';
+	/*
+    @ Push Notification ID (SHA256 Hash)
+    @ Generated from self::generateRandomSHA256();
+    */
+    const push_notif_id = '3961627a2311328ca428dc1403d18a4d9f60b724d7a886081d88784cb928a684';
+    
+    private $auth_token;
+    
+    public function __construct($auth_token = null)
     {
-        $this->authToken = $token;
-		
-		if($deviceId){
-			$this->deviceId = $deviceId;
-		}else{
-			$this->deviceId = "285B1851-50FA-A1B9-2449-8D75618C6414";
-		}
+        $this->auth_token = $auth_token;
     }
     
+    /*
+    @ login2FA
+    @ POST("/v3/user/accounts/otp")
+    */
     public function login2FA($phoneNumber)
     {
-        $payload = array(
-            'mobile' => $phoneNumber,
-            'deviceId' => $this->deviceId
+        $field = array(
+            'msisdn' => $phoneNumber,
+            'device_id' => self::device_id
         );
-        
-        return self::Request(Constants::API . '/v2.0/api/auth/customer/login2FA', $payload, self::generateHeaders());
+        return self::Request(self::heusc_api . "/v3/user/accounts/otp", $field, self::headers());
     }
     
-    public function login2FAverify($refId, $otpCode, $phoneNumber)
+    /*
+    @ login2FAverify
+    @ POST("/v3/user/accounts/otp/validation")
+    */
+    public function login2FAverify($reff_id, $otpCode, $phoneNumber)
     {
-        $payload = array(
-            'refId' => $refId,
-            'verificationCode' => $otpCode,
-            'mobile' => $phoneNumber,
-            'osName' => Constants::osName,
-            'osVersion' => Constants::osVersion,
-            'deviceId' => $this->deviceId,
-            'appVersion' => Constants::appVersion,
-            'pushNotificationId' => Constants::pushNotif
+        $field = array(
+            'msisdn' => $phoneNumber,
+            'device_id' => self::device_id,
+            'otp_code' => $otpCode,
+			'reff_id' => $reff_id
         );
-        
-        return self::Request(Constants::API . '/v2.0/api/auth/customer/login2FA/verify', $payload, self::generateHeaders());
+        return self::Request(self::heusc_api . "/v3/user/accounts/otp/validation", $field, self::headers());
     }
     
-    public function loginSecurityCode($securityCode, $updateAccessToken)
+    /*
+    @ loginSecurityCode
+    @ POST("/v3/user/accounts/login")
+    */
+    public function loginSecurityCode($securityCode, $phoneNumber, $otp_token)
     {
-        $payload = array(
-            'deviceUnixtime' => time(),
-            'securityCode' => $securityCode,
-            'updateAccessToken' => $updateAccessToken
+        $field = array(
+            'security_code' => $securityCode,
+            'msisdn' => $phoneNumber,
+            'device_id' => self::device_id,
+            'otp_token' => $otp_token
         );
-        
-        return self::Request(Constants::API . '/v2.0/api/auth/customer/loginSecurityCode/verify', $payload, self::generateHeaders());
+        return self::Request(self::heusc_api . "/v3/user/accounts/login", $field, self::headers());
     }
-	
-    public function verifyOVOMember($phoneNumber, $amount=null)
-	{
-		if($amount){
-			$nominal = $amount;
-		}else{
-			$nominal = '10000';
-		}
-		$payload = array(
-			'mobile' => $phoneNumber,
-			'amount' => $nominal
-		);
-		
-		return self::Request(Constants::API . '/v1.1/api/auth/customer/isOVO', $payload, self::generateHeaders());
-	}
-	
+    
+    /*
+    @ getNotifications
+    @ GET("/v1.0/notification/status/all?limit={limit}")
+    */
+    public function getNotifications($limit = 5)
+    {
+        return self::Request(self::api_url . "/v1.0/notification/status/all?limit={$limit}", false, self::headers());
+    }
+    
+    /*
+    @ getAccountNumber
+    @ parse self::walletInquiry()
+    */
+    public function getAccountNumber()
+    {
+        $json = json_decode(self::walletInquiry());
+        return $json->data->{'001'}->card_no;
+    }
+    
+    /*
+    @ getBalance
+    @ parse self::walletInquiry()
+    */
+    public function getBalance()
+    {
+        $json = json_decode(self::walletInquiry());
+        return $json->data->{'001'}->card_balance;
+    }
+    
+    /*
+    @ getPoint
+    @ parse self::walletInquiry()
+    */
+    public function getPoint()
+    {
+        $json = json_decode(self::walletInquiry());
+        return $json->data->{'600'}->card_balance;
+    }
+    
+    /*
+    @ walletInquiry
+    @ GET("/wallet/inquiry")
+    */
     public function walletInquiry()
     {
-        return self::parseResponse(self::Request(Constants::API . '/wallet/inquiry', false, self::generateHeaders()));
+        return self::Request(self::api_url . "/wallet/inquiry", false, self::headers());
     }
-	
-	public function getNotifications()
-    {
-        return self::Request(Constants::API . '/v1.0/notification/status/all?limit=5', false, self::generateHeaders());
-    }
-	
-	public function getLastTransactions($limit=5){
-		return self::parseResponse(self::Request(Constants::API . '/wallet/transaction/last?limit='. $limit .'&transaction_type=TRANSFER&transaction_type=EXTERNAL%20TRANSFER', false, self::generateHeaders()));
-	}
-	
-	public function getAccountNo()
-	{
-		return self::walletInquiry()['data']['001']['card_no'];
-	}
-	
-	public function getAccountBalance()
-	{
-		return self::walletInquiry()['data']['001']['card_balance'];
-	}
-	
-	public function isConnect()
-	{
-		return self::walletInquiry();
-	}
-	
-	public function getOvoPoint()
-	{
-		return self::walletInquiry()['data']['600']['card_balance'];
-	}
-	
-	public function getBankList()
-    {
-        return self::parseResponse(self::Request(Constants::API . '/v1.0/reference/master/ref_bank', false, self::generateHeaders()))['bankTypes'];
-    }
-	
-	public function transactionHistory($page=1, $limit=10)
-    {
-        return self::parseResponse(self::Request(Constants::API . '/wallet/v2/transaction?page=' . $page . '&limit=' . $limit, false, self::generateHeaders()));
-    }
-
-    public function transferOvo($amount, $to, $securityCode, $message = "")
-    {	
-		$prepare = self::verifyOVOMember($to, $amount);
-		$json = json_decode($prepare);
-		if($json->fullName){
-			
-			$trxId   = self::parseResponse(self::generateTrxId($amount))['trxId'];
-			$payload = array(
-				'amount' => $amount,
-				'trxId' => $trxId,
-				'to' => $to,
-				'message' => $message
-			);
-        
-			$transfer = self::Request(Constants::API . '/v1.0/api/customers/transfer', $payload, self::generateHeaders());
-			if (preg_match('/sorry unable to handle your request/', $transfer)) {
-				$unlockTrxId = self::unlockAndValidateTrxId($amount, $trxId, $securityCode);
-				
-				if($unlockTrxId->isAuthorized == 'true') {
-					return self::Request(Constants::API . '/v1.0/api/customers/transfer', $payload, self::generateHeaders());
-					exit();
-				}else{
-					return json_encode(array('message' => $unlockTrxId->message));
-					exit();
-				}
-			} else {
-				return $transfer;
-				exit();
-			}
-		}else{
-			return $prepare;
-			exit();
-		} 
-    }
-	
-	public function transferBankPrepare($bankCode, $bankNumber, $amount, $message=""){
-
-		$payload = array(
-			'accountNo' => $bankNumber,
-			'bankCode' => $bankCode,
-			'messages' => $message,
-			'amount' => $amount
-		);
-		
-		return self::Request(Constants::API . '/transfer/inquiry/', $payload, self::generateHeaders());
-	}
     
-	protected function transferBankExecute($amount, $bankName, $bankCode, $bankAccountNumber, $bankAccountName, $trxId, $notes=""){
-		
-		$payload = array(
-			'bankName' => $bankName,
-			'notes' => $notes,
-			'transactionId' => $trxId,
-			'accountNo' => self::getAccountNo(),
-			'accountName' => $bankAccountName,
-			'accountNoDestination' => $bankAccountNumber,
-			'bankCode' => $bankCode,
-			'amount' => $amount,
-		);
-		
-		return self::Request(Constants::API . '/transfer/direct', $payload, self::generateHeaders());
+    /*
+    @ transactionHistory
+    @ GET("/wallet/v2/transaction?page={page}&limit={limit}")
+    */
+    public function transactionHistory($page = 1, $limit = 10)
+    {
+        return self::Request(self::api_url . "/wallet/v2/transaction?page={$page}&limit={$limit}", false, self::headers());
+    }
+    
+    /*
+    @ getBankList
+    @ GET("/v1.0/reference/master/ref_bank")
+    */
+    public function getBankList()
+    {
+        return self::Request(self::api_url . "/v1.0/reference/master/ref_bank", false, self::headers());
+    }
+    
+    /*
+    @ isOVO
+    @ POST("/v1.1/api/auth/customer/isOVO")
+    */
+    public function isOVO($phoneNumber)
+    {
+        $field = array(
+            'mobile' => $phoneNumber,
+            'amount' => 10000
+        );
+        return self::Request(self::api_url . "/v1.1/api/auth/customer/isOVO", $field, self::headers());
+    }
+    
+    /*
+    @ generateTrxId
+    @ POST("/v1.0/api/auth/customer/genTrxId")
+    */
+    private function generateTrxId($amount)
+    {
+        $field = array(
+            'amount' => $amount,
+            'actionMark' => self::action_mark
+        );
+        return self::Request(self::api_url . "/v1.0/api/auth/customer/genTrxId", $field, self::headers());
+    }
+    
+    /*
+    @ generateSignature
+    @ unlockTrxId Signature
+    */
+    private function generateSignature($amount, $trxId)
+    {
+        $device = self::device_id;
+        return sha1("{$trxId}||{$amount}||{$device}");
+    }
+    
+    /*
+    @ unlockAndValidateTrxId
+    @ POST("/v1.0/api/auth/customer/unlockAndValidateTrxId")
+    */
+    private function unlockTrxId($amount, $trxId, $securityCode)
+    {
+        $field = array(
+            'trxId' => $trxId,
+            'signature' => self::generateSignature($amount, $trxId),
+            'securityCode' => $securityCode
+        );
+        return self::Request(self::api_url . "/v1.0/api/auth/customer/unlockAndValidateTrxId", $field, self::headers());
+    }
+	
+    /*
+    @ generateUUIDV4
+    @ generate random UUIDV4 for device ID
+    */
+    public function generateUUIDV4()
+    {
+        $data    = random_bytes(16);
+        $data[6] = chr(ord($data[6]) & 0x0f | 0x40);
+        $data[8] = chr(ord($data[8]) & 0x3f | 0x80);
+        return strtoupper(vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($data), 4)));
+    }
+	
+    /*
+    @ generateRandomSHA256
+    @ generate random SHA256 hash for push notification ID
+    */
+	public function generateRandomSHA256()
+	{
+		return hash_hmac('sha256', microtime(), 'namdevel_ovo_api');
 	}
 	
-	public function transferBank($bankCode, $bankNumber, $amount, $securityCode, $message=""){
-		
-		$prepare = self::transferBankPrepare($bankCode, $bankNumber, $amount);
-		$json = json_decode($prepare);
-		if($json->accountName){
-			
-			$trxId   = self::parseResponse(self::generateTrxId($amount))['trxId'];
-			$transfer = self::transferBankExecute($json->baseAmount, $json->bankName, $json->bankCode, $json->accountNo, $json->accountName, $trxId, $message);
-			
-			if(preg_match('/sorry unable to handle your request/', $transfer)){
-				
-				$unlockTrxId = self::unlockAndValidateTrxId($amount, $trxId, $securityCode);
-				
-				if($unlockTrxId->isAuthorized == 'true') {
-					return self::transferBankExecute($json->baseAmount, $json->bankName, $json->bankCode, $json->accountNo, $json->accountName, $trxId, $message);
-					exit();
-				}else{
-					return json_encode(array('message' => $unlockTrxId->message));
-					exit();
-				}
-			}else{
-				return $transfer;
-				exit();
-			}
-		}else{
-			return $prepare;
-			exit();
-		}
-	}
-	
-    protected function Request($url, $post = false, $headers = false)
+    /*
+    @ tfOVO
+    @ POST("/v1.0/api/customers/transfer")
+    */
+    public function tfOVO($amount, $phoneNumber, $securityCode, $message = '')
+    {
+        $verify = self::isOVO($phoneNumber);
+        if (self::getRes($verify)->fullName) {
+            $trxId = self::getRes(self::generateTrxId($amount))->trxId;
+            $field = array(
+                'amount' => $amount,
+                'trxId' => $trxId,
+                'to' => $phoneNumber,
+                'message' => $message
+            );
+            $tfOVO = self::Request(self::api_url . "/v1.0/api/customers/transfer", $field, self::headers());
+            if (preg_match('/sorry unable to handle your request/', $tfOVO)) {
+                $unlock = self::unlockTrxId($amount, $trxId, $securityCode);
+                if (self::getRes($unlock)->isAuthorized) {
+                    return self::Request(self::api_url . "/v1.0/api/customers/transfer", $field, self::headers());
+                } else {
+                    return $unlock;
+                }
+            } else {
+                return $tfOVO;
+            }
+        } else {
+            return $verify;
+        }
+    }
+    
+    /*
+    @ tfBankPrepare
+    @ POST("/transfer/inquiry/")
+    */
+    private function tfBankPrepare($bankCode, $bankNumber, $amount, $messages = '')
+    {
+        $field = array(
+            'accountNo' => $bankNumber,
+            'bankCode' => $bankCode,
+            'messages' => $messages,
+            'amount' => $amount
+        );
+        return self::Request(self::api_url . "/transfer/inquiry/", $field, self::headers());
+    }
+    
+    /*
+    @ tfBankExecute
+    @ POST("/transfer/direct")
+    */
+    private function tfBankExecute($amount, $bankName, $bankCode, $bankAccountNumber, $bankAccountName, $trxId, $notes = '')
+    {
+        $field = array(
+            'bankName' => $bankName,
+            'notes' => $notes,
+            'transactionId' => $trxId,
+            'accountNo' => self::getAccountNumber(),
+            'accountName' => $bankAccountName,
+            'accountNoDestination' => $bankAccountNumber,
+            'bankCode' => $bankCode,
+            'amount' => $amount
+        );
+        return self::Request(self::api_url . "/transfer/direct", $field, self::headers());
+    }
+    
+    /*
+    @ tfBank
+    @ call self::tfBankPrepare()
+    @ call self::tfBankExecute()
+    */
+    public function tfBank($bankCode, $bankNumber, $amount, $securityCode, $notes = '')
+    {
+        $tfBankPrepare = self::tfBankPrepare($bankCode, $bankNumber, $amount);
+        $bankInfo      = self::getRes($tfBankPrepare);
+        if ($bankInfo->accountName) {
+            $trxId         = self::getRes(self::generateTrxId($amount))->trxId;
+            $tfBankExecute = self::tfBankExecute($bankInfo->baseAmount, $bankInfo->bankName, $bankInfo->bankCode, $bankInfo->accountNo, $bankInfo->accountName, $trxId, $notes);
+            if (preg_match('/sorry unable to handle your request/', $tfBankExecute)) {
+                $unlock = self::unlockTrxId($amount, $trxId, $securityCode);
+                if (self::getRes($unlock)->isAuthorized) {
+                    return self::tfBankExecute($bankInfo->baseAmount, $bankInfo->bankName, $bankInfo->bankCode, $bankInfo->accountNo, $bankInfo->accountName, $trxId, $notes);
+                } else {
+                    return $unlock;
+                }
+            } else {
+                return $tfBankExecute;
+            }
+        } else {
+            return $tfBankPrepare;
+        }
+    }
+    
+    /*
+    @ getRes
+    @ Decoded JSON response
+    */
+    private function getRes($json)
+    {
+        return json_decode($json);
+    }
+    
+    /*
+    @ headers
+    @ OVO custom headers
+    */
+    private function headers()
+    {
+        $headers = array(
+            'content-type: application/json',
+            'app-id: ' . self::app_id,
+            'app-version: ' . self::app_version,
+            'os: ' . self::os_name,
+            'user-agent: ' . self::user_agent
+        );
+        
+        return $headers;
+    }
+    
+    /*
+    @ Request
+    @ Curl http request
+    */
+    private function Request($url, $post = false, $headers = false)
     {
         $ch = curl_init();
         
         curl_setopt_array($ch, array(
             CURLOPT_URL => $url,
-            CURLOPT_RETURNTRANSFER => true
+            CURLOPT_RETURNTRANSFER => true,
+			CURLOPT_SSL_VERIFYHOST => false,
+			CURLOPT_SSL_VERIFYPEER => false
         ));
         
         if ($post) {
@@ -238,8 +353,8 @@ class OvoId
             curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($post));
         }
         
-        if (!empty($this->authToken)) {
-            array_push($headers, "authorization: " . $this->authToken);
+        if (!empty($this->auth_token)) {
+            array_push($headers, "authorization: " . $this->auth_token);
         }
         
         if ($headers) {
@@ -250,49 +365,4 @@ class OvoId
         curl_close($ch);
         return $result;
     }
-    
-    protected function generateHeaders()
-    {
-        $headers = array(
-            'content-type: application/json',
-            'app-id: ' . Constants::appId,
-            'app-version: ' . Constants::appVersion,
-            'os: ' . Constants::osName,
-            'user-agent: ' . Constants::userAgent
-        );
-        
-        return $headers;
-    }
-	
-	protected function parseResponse($response){
-		return json_decode($response, true);
-	}
-	
-	protected function generateSignature($amount, $trxId, $device)
-    {
-		$parameters = array($trxId, $amount, $device);
-        return sha1(join('||', $parameters));
-    }
-	
-	protected function unlockAndValidateTrxId($amount, $trxId, $securityCode)
-    {
-        $payload = array(
-            'trxId' => $trxId,
-            'signature' => self::generateSignature($amount, $trxId, $this->deviceId),
-            'securityCode' => $securityCode
-        );
-        
-        return json_decode(self::Request(Constants::API . '/v1.0/api/auth/customer/unlockAndValidateTrxId', $payload, self::generateHeaders()));
-    }
-	
-	protected function generateTrxId($amount)
-    {
-        $payload = array(
-            'amount' => $amount,
-            'actionMark' => Constants::actionMark
-        );
-        
-        return self::Request(Constants::API . '/v1.0/api/auth/customer/genTrxId', $payload, self::generateHeaders());
-    }
-    
 }
