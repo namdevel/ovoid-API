@@ -1,18 +1,19 @@
 {
     "name": "namdevel/ovoid-api",
-    "description": "OVO Api PHP Class [Unofficial]",
+    "description": "Un-official OVO ID API Wrapper",
     "type": "library",
     "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Namdevel\\": "src/"
+        }
+    },
     "authors": [
         {
-            "name": "ANAMPEDIA",
-            "email": "yzmikazuki@gmail.com"
+            "name": "namdevel",
+            "email": "namdevel@gmail.com"
         }
     ],
-	"autoload": {
-        "files":[
-          "src/Ovo.php"
-        ]
-    }
-
+    "minimum-stability": "dev",
+    "require": {}
 }
