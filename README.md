@@ -12,6 +12,12 @@ Compliant with the July 17, 2021 OVO API update.
 
 :coffee: Buy Me a Coffee : https://trakteer.id/namdevel
 
+Installation
+------------
+```
+composer require namdevel/ovoid-api
+```
+
 Reference
 ------------
 - [@lintangtimur/ovoid](https://github.com/lintangtimur/ovoid) by [lintangtimur](https://github.com/lintangtimur)
