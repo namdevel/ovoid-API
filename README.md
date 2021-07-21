@@ -1,8 +1,6 @@
 # OVO Api PHP Class [Unofficial]
 [![API](https://img.shields.io/badge/OVO%20API-July%2018%2C%202021-36ade1.svg)](https://www.ovo.id/features)
 [![CodeFactor](https://www.codefactor.io/repository/github/namdevel/ovoid-api/badge)](https://www.codefactor.io/repository/github/namdevel/ovoid-api)
-![PHP](https://img.shields.io/badge/php-%3E%3D7.x-8892bf.svg)
-![CURL](https://img.shields.io/badge/cURL-required-green.svg)
 [![GitHub issues](https://img.shields.io/github/issues/namdevel/ovoid-API)](https://github.com/namdevel/ovoid-API/issues)
 [![GitHub forks](https://img.shields.io/github/forks/namdevel/ovoid-API)](https://github.com/namdevel/ovoid-API/network)
 [![GitHub stars](https://img.shields.io/github/stars/namdevel/ovoid-API)](https://github.com/namdevel/ovoid-API/stargazers)
