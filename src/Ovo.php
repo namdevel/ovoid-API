@@ -13,7 +13,7 @@ class Ovo
     @ Device ID (UUIDV4)
     @ Generated from self::generateUUIDV4();
     */
-    const device_id = "94508BA5-B41F-425C-BB08-D03A03AC63E2";
+    const device_id = "7F341E8D-C44E-436D-AF39-CA8B5ECF348D";
     const api_url = "https://api.ovo.id";
     const heusc_api = "https://agw.heusc.id";
     const os_name = "iOS";
