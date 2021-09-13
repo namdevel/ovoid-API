@@ -450,7 +450,7 @@ class Ovo
         }
 
         if (!empty($this->auth_token)) {
-            array_push($headers, "authorization: " . $this->auth_token);
+            array_push($headers, "authorization: Bearer " . $this->auth_token);
         }
 
         if ($headers) {
