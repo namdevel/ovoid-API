@@ -4,7 +4,7 @@ namespace Namdevel;
 @ Unofficial Ovo API PHP Class
 @ Author : namdevel
 @ Created at 04-03-2020 14:26
-@ Last Modified at 18-07-2021 11:44
+@ Last Modified at 15-09-2021 08:43
 */
 
 class Ovo
@@ -16,6 +16,7 @@ class Ovo
     const device_id = "7F341E8D-C44E-436D-AF39-CA8B5ECF348D";
     const api_url = "https://api.ovo.id";
     const heusc_api = "https://agw.heusc.id";
+	const agw_api = "https://agw.ovo.id";
     const os_name = "iOS";
     const os_version = "14.4.2";
     const app_id = "P72RVSPSF61F72ELYLZI";
@@ -153,8 +154,8 @@ class Ovo
     public function transactionHistory($page = 1, $limit = 10)
     {
         return self::Request(
-            self::api_url .
-                "/wallet/v2/transaction?page={$page}&limit={$limit}",
+            self::agw_api .
+                "/payment/orders/v1/list?limit={$limit}&page={$page}",
             false,
             self::headers()
         );
