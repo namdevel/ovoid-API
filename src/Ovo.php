@@ -149,7 +149,7 @@ class Ovo
 
     /*
     @ transactionHistory
-    @ GET("/wallet/v2/transaction?page={page}&limit={limit}")
+    @ GET("/payment/orders/v1/list?limit={$limit}&page={$page}")
     */
     public function transactionHistory($page = 1, $limit = 10)
     {
