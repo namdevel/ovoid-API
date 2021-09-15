@@ -23,6 +23,8 @@ class Ovo
     const app_version = "3.37.0";
     const user_agent = "OVO/16820 CFNetwork/1220.1 Darwin/20.3.0";
     const action_mark = "OVO Cash";
+	const client_id = "ovo_ios";
+	
     /*
     @ Push Notification ID (SHA256 Hash)
     @ Generated from self::generateRandomSHA256();
@@ -425,6 +427,7 @@ class Ovo
             "app-version: " . self::app_version,
             "os: " . self::os_name,
             "user-agent: " . self::user_agent,
+			'client-id: ' . self::client_id,
         ];
 
         return $headers;
