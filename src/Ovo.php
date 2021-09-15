@@ -30,6 +30,7 @@ class Ovo {
     */
     const push_notif_id = "3961627a2311328ca428dc1403d18a4d9f60b724d7a886081d88784cb928a684";
     private $auth_token;
+	
     public function __construct($auth_token = null) {
         $this->auth_token = $auth_token;
     }
