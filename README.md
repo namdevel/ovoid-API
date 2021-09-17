@@ -20,6 +20,8 @@ composer require namdevel/ovoid-api
 Features
 ------------
 - [x] Qris Payment `NEW`
+- [x] transferBank
+- [x] transferOvo
 - [x] sendOtp
 - [x] OTPVerify
 - [x] getAuthToken
@@ -42,8 +44,7 @@ Features
 - [x] getUnreadNotifications
 - [x] getAllNotifications
 - [x] getInvestment
-- [x] transferBank
-- [x] transferOvo
+- [x] getTransactionDetails
 
 License
 ------------
