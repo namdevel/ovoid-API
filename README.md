@@ -7,7 +7,7 @@
 [![GitHub license](https://img.shields.io/github/license/namdevel/ovoid-API)](https://github.com/namdevel/ovoid-API/blob/master/LICENSE)
 [![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fnamdevel%2Fovoid-API&count_bg=%23F30000&title_bg=%23555555&icon=dev-dot-to.svg&icon_color=%23E7E7E7&title=VIEWS&edge_flat=false)](https://hits.seeyoufarm.com)
 
-Compliant with the September 17, 2021 OVO API update versin 3.43.0
+Compliant with the September 17, 2021 OVO API update (version 3.43.0)
 
 :coffee: Buy Me a Coffee : https://trakteer.id/namdevel/tip
 
