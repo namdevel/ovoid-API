@@ -11,19 +11,19 @@ class Ovo
     const BASE_API = "https://api.ovo.id";
     const AGW_API = "https://agw.ovo.id";
     const AWS_API = "https://api.cp1.ovo.id";
-
+    
     const os = "iOS";
     const app_version = "3.43.0";
     const client_id = "ovo_ios";
     const user_agent = "OVO/17767 CFNetwork/1220.1 Darwin/20.3.0";
-	
+    
     /*
     @ Device ID (UUIDV4)
     @ Generated from self::generateUUIDV4();
     */
     const device_id = "6AA4E427-D1B4-4B7E-9C22-F4C0F86F2CFD";
-	
-	/*
+    
+    /*
     @ Push Notification ID (SHA256 Hash)
     @ Generated from self::generateRandomSHA256();
     */
@@ -153,22 +153,22 @@ class Ovo
     {
         return self::request(self::AGW_API . '/v3/user/public_keys', false, $this->headers());
     }
-	
-	/*
+    
+    /*
     @ getLastTransactions
-	@ param (int limit)
+    @ param (int limit)
     @ BASE ENDPOINT GET("/wallet/transaction/last")
     */
     public function getLastTransactions($limit = 5)
     {
-        return self::request(self::BASE_API . '/wallet/transaction/last?limit='. $limit .'&transaction_type=TRANSFER&transaction_type=EXTERNAL%20TRANSFER', false, $this->headers());
+        return self::request(self::BASE_API . '/wallet/transaction/last?limit=' . $limit . '&transaction_type=TRANSFER&transaction_type=EXTERNAL%20TRANSFER', false, $this->headers());
     }
-	
-	/*
+    
+    /*
     @ getFavoriteTransfer
     @ AWS ENDPOINT GET("/user-profiling/favorite-transfer")
     */
-	public function getFavoriteTransfer()
+    public function getFavoriteTransfer()
     {
         return self::request(self::AWS_API . '/user-profiling/favorite-transfer', false, $this->headers());
     }
@@ -230,8 +230,8 @@ class Ovo
     {
         return self::parse(self::walletInquiry(), false)->data->{'001'}->card_balance;
     }
-	
-	/*
+    
+    /*
     @ getOvoCashCardNumber (Ovo Cash)
     @ parse self::walletInquiry()
     */
@@ -239,8 +239,8 @@ class Ovo
     {
         return self::parse(self::walletInquiry(), false)->data->{'001'}->card_no;
     }
-	
-	/*
+    
+    /*
     @ getOvoPointsCardNumber (Ovo Points)
     @ parse self::walletInquiry()
     */
@@ -291,7 +291,7 @@ class Ovo
     
     /*
     @ getBillerCategory (get biller by category ID)
-	@ param (int category_id)
+    @ param (int category_id)
     @ AWS ENDPOINT GET("/gpdm/ovo/ID/v2/billpay/get-billers")
     */
     public function getBillerCategory($category_id)
@@ -301,15 +301,15 @@ class Ovo
     
     /*
     @ getDenominations
-	@ param (int product_id)
+    @ param (int product_id)
     @ AWS ENDPOINT GET("/gpdm/ovo/ID/v1/billpay/get-denominations/{product_id}")
     */
     public function getDenominations($product_id)
     {
         return self::request(self::AWS_API . "/gpdm/ovo/ID/v1/billpay/get-denominations/{$product_id}", false, $this->headers());
     }
-	
-	/*
+    
+    /*
     @ getBankList
     @ BASE ENDPOINT GET("/v1.0/reference/master/ref_bank")
     */
@@ -317,8 +317,8 @@ class Ovo
     {
         return self::request(self::BASE_API . "/v1.0/reference/master/ref_bank", false, $this->headers());
     }
-	
-	/*
+    
+    /*
     @ getUnreadNotifications
     @ BASE ENDPOINT GET("/v1.0/notification/status/count/UNREAD")
     */
@@ -326,8 +326,8 @@ class Ovo
     {
         return self::request(self::BASE_API . "/v1.0/notification/status/count/UNREAD", false, $this->headers());
     }
-	
-	/*
+    
+    /*
     @ getAllNotifications
     @ BASE ENDPOINT GET("/v1.0/notification/status/all")
     */
@@ -335,8 +335,8 @@ class Ovo
     {
         return self::request(self::BASE_API . "/v1.0/notification/status/all", false, $this->headers());
     }
-	
-	/*
+    
+    /*
     @ getInvestment
     @ GET("https://investment.ovo.id/customer")
     */
@@ -402,7 +402,7 @@ class Ovo
         
         return self::request(self::AWS_API . '/gpdm/ovo/ID/v1/billpay/pay', $field, $this->headers());
     }
-	
+    
     /*
     @ isOvo
     @ param (int amount, string phone_number)
@@ -413,12 +413,12 @@ class Ovo
         $field = array(
             'amount' => $amount,
             'mobile' => $phone_number
-		);
+        );
         
         return self::request(self::BASE_API . '/v1.1/api/auth/customer/isOVO', $field, $this->headers());
     }
-	
-	/*
+    
+    /*
     @ generateTrxId
     @ param (int amount, string action_mark)
     @ BASE ENDPOINT POST("/v1.0/api/auth/customer/genTrxId")
@@ -428,21 +428,26 @@ class Ovo
         $field = array(
             'amount' => $amount,
             'actionMark' => $action_mark
-		);
+        );
         
         return self::request(self::BASE_API . '/v1.0/api/auth/customer/genTrxId', $field, $this->headers());
     }
-	
-	/*
+    
+    /*
     @ generateSignature
-	@ param (int amount, string trx_id)
+    @ param (int amount, string trx_id)
     @ generate unlockAndValidateTrxId signature
     */
-    protected function generateSignature($amount, $trx_id) {
-        return sha1(join('||', array($trx_id, $amount, self::device_id)));
+    protected function generateSignature($amount, $trx_id)
+    {
+        return sha1(join('||', array(
+            $trx_id,
+            $amount,
+            self::device_id
+        )));
     }
-	
-	/*
+    
+    /*
     @ unlockAndValidateTrxId
     @ param (int amount, string trx_id, string security_code)
     @ BASE ENDPOINT POST("/v1.0/api/auth/customer/genTrxId")
@@ -452,13 +457,13 @@ class Ovo
         $field = array(
             'trxId' => $trx_id,
             'securityCode' => $security_code,
-			'signature' => self::generateSignature($amount, $trx_id)
-		);
+            'signature' => self::generateSignature($amount, $trx_id)
+        );
         
         return self::request(self::BASE_API . '/v1.0/api/auth/customer/unlockAndValidateTrxId', $field, $this->headers());
     }
-	
-	/*
+    
+    /*
     @ transferOVO
     @ param (int/string amount, string phone_number, string, trx_id, string message)
     @ BASE ENDPOINT POST("/v1.0/api/customers/transfer")
@@ -468,14 +473,14 @@ class Ovo
         $field = array(
             'amount' => $amount,
             'to' => $phone_number,
-			'trxId' => $trx_id,
-			'message' => $message,
-		);
+            'trxId' => $trx_id,
+            'message' => $message
+        );
         
         return self::request(self::BASE_API . '/v1.0/api/customers/transfer', $field, $this->headers());
     }
-	
-	/*
+    
+    /*
     @ transferBankInquiry
     @ param (string bank_code, string bank_number, string amount, string message)
     @ BASE ENDPOINT POST("/transfer/inquiry")
@@ -485,14 +490,14 @@ class Ovo
         $field = array(
             'bankCode' => $bank_code,
             'accountNo' => $bank_number,
-			'amount' => $amount,
-			'message' => $message,
-		);
+            'amount' => $amount,
+            'message' => $message
+        );
         
         return self::request(self::BASE_API . '/transfer/inquiry/', $field, $this->headers());
     }
-	
-	/*
+    
+    /*
     @ transferBankDirect
     @ param (string bank_code, string bank_number, string amount, string notes)
     @ BASE ENDPOINT POST("/transfer/direct")
@@ -501,19 +506,19 @@ class Ovo
     {
         $field = array(
             'bankCode' => $bank_code,
-			'accountNo' => self::getOvoCashCardNumber(),
-			'amount' => $amount,
-			'accountNoDestination' => $bank_number,
-			'bankName' => $bank_name,
-			'accountName' => $bank_account_name,
-			'notes' => $notes,
-			'transactionId' => $trx_id
-		);
+            'accountNo' => self::getOvoCashCardNumber(),
+            'amount' => $amount,
+            'accountNoDestination' => $bank_number,
+            'bankName' => $bank_name,
+            'accountName' => $bank_account_name,
+            'notes' => $notes,
+            'transactionId' => $trx_id
+        );
         
         return self::request(self::BASE_API . '/transfer/direct', $field, $this->headers());
     }
-	
-	/*
+    
+    /*
     @ QrisPay
     @ param (int amount, string trx_id, string qrid)
     @ BASE ENDPOINT POST("/wallet/purchase/qr")
@@ -521,36 +526,36 @@ class Ovo
     public function QrisPay($amount, $trx_id, $qrid)
     {
         $field = array(
-			'qrPayload' => $qrid,
-			'locationInfo' => array(
-				'accuracy' => 11.00483309472351,
-				'verticalAccuracy' => 3,
-				'longitude' => 84.90665207978246,
-				'heading' => 11.704396994254495,
-				'latitude' => -9.432921591875759,
-				'altitude' => 84.28827400936305,
-				'speed' => 0.11528167128562927
-			),
-			'deviceInfo' => array(
-				'deviceBrand' => 'Apple',
-				'deviceModel' => 'iPhone',
-				'appVersion' => self::app_version,
-				'deviceToken' => self::push_notification_id
-			),
-			'paymentDetail' => array(
-				array(
-					'amount' => $amount,
-					'id' => '001',
-					'name' => 'OVO Cash'
-				)
-			),
-			'transactionId' => $trx_id,
-			'appsource' => 'OVO-APPS'
-		);
+            'qrPayload' => $qrid,
+            'locationInfo' => array(
+                'accuracy' => 11.00483309472351,
+                'verticalAccuracy' => 3,
+                'longitude' => 84.90665207978246,
+                'heading' => 11.704396994254495,
+                'latitude' => -9.432921591875759,
+                'altitude' => 84.28827400936305,
+                'speed' => 0.11528167128562927
+            ),
+            'deviceInfo' => array(
+                'deviceBrand' => 'Apple',
+                'deviceModel' => 'iPhone',
+                'appVersion' => self::app_version,
+                'deviceToken' => self::push_notification_id
+            ),
+            'paymentDetail' => array(
+                array(
+                    'amount' => $amount,
+                    'id' => '001',
+                    'name' => 'OVO Cash'
+                )
+            ),
+            'transactionId' => $trx_id,
+            'appsource' => 'OVO-APPS'
+        );
         
         return self::request(self::BASE_API . '/wallet/purchase/qr?qrid=' . urlencode($qrid), $field, $this->headers());
     }
-	
+    
     /*
     @ parse
     @ parse JSON response
