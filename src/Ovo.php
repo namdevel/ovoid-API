@@ -165,6 +165,16 @@ class Ovo
     }
     
     /*
+    @ getTransactionDetails
+    @ param (string merchant_id. string merchant_invoice)
+    @ BASE ENDPOINT GET("/wallet/transaction/{merchant_id}/{merchant_invoice}")
+    */
+    public function getTransactionDetails($merchant_id, $merchant_invoice)
+    {
+        return self::request(self::BASE_API . '/wallet/transaction/' . $merchant_id . '/' . $merchant_invoice . '', false, $this->headers());
+    }
+    
+    /*
     @ getFavoriteTransfer
     @ AWS ENDPOINT GET("/user-profiling/favorite-transfer")
     */
