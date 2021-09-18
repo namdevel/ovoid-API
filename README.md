@@ -22,6 +22,7 @@ Features
 - [x] Qris Payment `NEW`
 - [x] transferBank
 - [x] transferOvo
+- [x] billerPay
 - [x] sendOtp
 - [x] OTPVerify
 - [x] getAuthToken
