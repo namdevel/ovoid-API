@@ -6,7 +6,7 @@ use Namdevel\Ovo;
 $token = "eyJhbGciOiJSUzI1NiJ9.eyJleHBpc...."; // your ovo auth token
 
 $app = new Ovo($token);
-$amount_to_pay = 10000; // amount to pay
+$amount_to_pay = 10000; // amount to pay (integer)
 $ovo_pin = "XXXXXX"; # your ovo pin / security code
 
 $inquiry = $app->transferBankInquiry('<bank_code>', '<bank_number>', $amount_to_pay, $message = ""); // inquiry request (get bank account details)
