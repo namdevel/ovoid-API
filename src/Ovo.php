@@ -4,7 +4,7 @@ namespace Namdevel;
 @ Unofficial Ovo API PHP Class
 @ Author : namdevel
 @ Created at 04-03-2020 14:26
-@ Last Modified at 17-09-2021 09:52
+@ Last Modified at 04-03-2022 13:21
 */
 class Ovo
 {
@@ -13,9 +13,9 @@ class Ovo
     const AWS_API = "https://api.cp1.ovo.id";
     
     const os = "iOS";
-    const app_version = "3.43.0";
+    const app_version = "3.54.0";
     const client_id = "ovo_ios";
-    const user_agent = "OVO/17767 CFNetwork/1220.1 Darwin/20.3.0";
+    const user_agent = "OVO/21404 CFNetwork/1220.1 Darwin/20.3.0";
     
     /*
     @ Device ID (UUIDV4)
@@ -467,6 +467,7 @@ class Ovo
         $field = array(
             'trxId' => $trx_id,
             'securityCode' => $security_code,
+			'appVersion' => self::app_version,
             'signature' => self::generateSignature($amount, $trx_id)
         );
         
