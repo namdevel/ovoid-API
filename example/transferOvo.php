@@ -8,7 +8,7 @@ $token = "eyJhbGciOiJSUzI1NiJ9.eyJleHBpc...."; // your ovo auth token
 $app = new Ovo($token);
 
 $to = '08XXXXXXXXXX'; # no hp penerima
-$amount_to_pay = 5000; # amount to pay (integer)
+$amount_to_pay = "5000"; # amount to pay (string)
 $ovo_pin = "XXXXXX"; # your ovo pin / security code
 
 $trx_id = json_decode($app->generateTrxId($amount_to_pay, 'OVO Cash'))->trxId; // generate transaction id , OVO Cash = action mark for tf OVO & Tf Bank
