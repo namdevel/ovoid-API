@@ -501,7 +501,7 @@ class Ovo
         $field = array(
             'bankCode' => $bank_code,
             'accountNo' => $bank_number,
-            'amount' => $amount,
+            'amount' => (string) $amount,
             'message' => $message
         );
         
@@ -518,7 +518,7 @@ class Ovo
         $field = array(
             'bankCode' => $bank_code,
             'accountNo' => self::getOvoCashCardNumber(),
-            'amount' => $amount,
+            'amount' => (string) $amount,
             'accountNoDestination' => $bank_number,
             'bankName' => $bank_name,
             'accountName' => $bank_account_name,
