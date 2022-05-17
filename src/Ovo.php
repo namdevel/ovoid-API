@@ -33,7 +33,9 @@ class Ovo
     
     public function __construct($auth_token = false)
     {
-        $this->auth_token = $auth_token;
+	if ($auth_token) {
+            $this->auth_token = $auth_token;
+        }
     }
     
     /*
